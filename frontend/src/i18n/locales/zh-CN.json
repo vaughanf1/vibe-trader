@@ -27,7 +27,8 @@
     "skipToMain": "跳转到主要内容",
     "sidebar": "Vibe-Trading 侧边栏",
     "mainNavigation": "主导航",
-    "about": "关于"
+    "about": "关于",
+    "shadowAccount": "影子账户"
   },
   "runtime": {
     "monitorBadge": "交易监控",
@@ -1402,5 +1403,24 @@
     "loading": "正在加载因子分析结果…",
     "error": "加载因子分析结果失败",
     "noFactorData": "本次运行没有可用的因子分析结果。"
+  },
+  "shadow": {
+    "title": "影子账户",
+    "subtitle": "上传你的券商交易流水。智能体会分析你真实的交易行为，提取你实际在遵循的规则，回测这些规则，并指出两者之间的差距。",
+    "dropHere": "将交易流水拖到此处，或点击选择文件",
+    "accepts": "CSV、TSV 或 Excel · 最大 50 MB · 支持同花顺、东方财富、富途及通用格式",
+    "uploading": "正在上传 {{name}}…",
+    "starting": "正在启动分析…",
+    "sessionTitle": "影子账户 — {{name}}",
+    "whatYouGet": "分析将给出什么",
+    "point1": "你的行为画像——持仓周期、胜率，以及处置效应、过度交易、追涨杀跌和锚定效应的检验。",
+    "point2": "从重复出现的买入卖出中提取出的、你实际在交易的规则。",
+    "point3": "把这些规则完整回测一遍：不犹豫，也不破坏规则。",
+    "point4": "差距所在：你的真实交易在哪里偏离了自己的策略，以及代价是多少。",
+    "privacy": "文件保存在本机的 ~/.vibe-trading 目录下，由本机上的智能体读取。分析过程中，流水内容会发送给你配置的大模型服务商。",
+    "errUnsupported": "不支持的文件类型。请将交易记录导出为 CSV、TSV 或 Excel。",
+    "errTooLarge": "文件超过 50 MB 限制。",
+    "errEmpty": "该文件为空。",
+    "errFailed": "上传失败，请重试。"
   }
 }

@@ -32,7 +32,8 @@
     "skipToMain": "Skip to main content",
     "sidebar": "Vibe-Trading sidebar",
     "mainNavigation": "Main navigation",
-    "about": "About"
+    "about": "About",
+    "shadowAccount": "Shadow Account"
   },
   "runtime": {
     "monitorBadge": "Runtime Monitor",
@@ -1402,5 +1403,24 @@
     "loading": "Loading factor results…",
     "error": "Failed to load factor results",
     "noFactorData": "No factor analysis results are available for this run."
+  },
+  "shadow": {
+    "title": "Shadow Account",
+    "subtitle": "Upload your broker export. The agent profiles how you actually trade, extracts the rules you are really following, backtests them, and shows you the gap between the two.",
+    "dropHere": "Drop your trade export here, or click to browse",
+    "accepts": "CSV, TSV, or Excel · up to 50 MB · 同花顺, 东方财富, 富途, and generic formats",
+    "uploading": "Uploading {{name}}…",
+    "starting": "Starting analysis…",
+    "sessionTitle": "Shadow Account — {{name}}",
+    "whatYouGet": "What the analysis returns",
+    "point1": "Your behavioural profile — holding periods, win rate, and checks for disposition effect, overtrading, momentum chasing, and anchoring.",
+    "point2": "The rules you are actually trading, extracted from recurring entries and exits.",
+    "point3": "A backtest of those rules run cleanly, with no hesitation and no rule breaks.",
+    "point4": "The gap: where your real trades diverged from your own strategy, and what it cost.",
+    "privacy": "Your file is stored locally under ~/.vibe-trading and read by the agent on this machine. Journal contents are sent to your configured LLM provider as part of the analysis.",
+    "errUnsupported": "Unsupported file type. Export your trades as CSV, TSV, or Excel.",
+    "errTooLarge": "File is larger than the 50 MB limit.",
+    "errEmpty": "That file is empty.",
+    "errFailed": "Upload failed. Please try again."
   }
 }

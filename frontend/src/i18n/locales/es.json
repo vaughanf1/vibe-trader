@@ -32,7 +32,8 @@
     "skipToMain": "Saltar al contenido principal",
     "sidebar": "Barra lateral de Vibe-Trading",
     "mainNavigation": "Navegación principal",
-    "about": "Acerca de"
+    "about": "Acerca de",
+    "shadowAccount": "Cuenta sombra"
   },
   "runtime": {
     "monitorBadge": "Monitor de Runtime",
@@ -1402,5 +1403,24 @@
     "loading": "Cargando resultados de factores…",
     "error": "Error al cargar los resultados de factores",
     "noFactorData": "No hay resultados de análisis de factores disponibles para esta ejecución."
+  },
+  "shadow": {
+    "title": "Cuenta sombra",
+    "subtitle": "Sube el export de tu bróker. El agente analiza cómo operas realmente, extrae las reglas que de verdad sigues, las somete a backtest y te muestra la diferencia entre ambas.",
+    "dropHere": "Suelta aquí tu histórico de operaciones, o haz clic para buscarlo",
+    "accepts": "CSV, TSV o Excel · hasta 50 MB · 同花顺, 东方财富, 富途 y formatos genéricos",
+    "uploading": "Subiendo {{name}}…",
+    "starting": "Iniciando el análisis…",
+    "sessionTitle": "Cuenta sombra — {{name}}",
+    "whatYouGet": "Qué devuelve el análisis",
+    "point1": "Tu perfil de comportamiento: periodos de tenencia, tasa de acierto y comprobaciones de efecto disposición, sobreoperación, persecución de momentum y anclaje.",
+    "point2": "Las reglas que realmente estás operando, extraídas de tus entradas y salidas recurrentes.",
+    "point3": "Un backtest de esas reglas ejecutado limpiamente, sin dudas y sin saltarse ninguna.",
+    "point4": "La diferencia: dónde tus operaciones reales se desviaron de tu propia estrategia y cuánto te costó.",
+    "privacy": "Tu archivo se guarda localmente en ~/.vibe-trading y lo lee el agente en este equipo. El contenido del histórico se envía a tu proveedor de LLM configurado como parte del análisis.",
+    "errUnsupported": "Tipo de archivo no admitido. Exporta tus operaciones como CSV, TSV o Excel.",
+    "errTooLarge": "El archivo supera el límite de 50 MB.",
+    "errEmpty": "Ese archivo está vacío.",
+    "errFailed": "Error al subir el archivo. Inténtalo de nuevo."
   }
 }

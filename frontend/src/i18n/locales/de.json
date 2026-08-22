@@ -32,7 +32,8 @@
     "skipToMain": "Zum Hauptinhalt springen",
     "sidebar": "Vibe-Trading-Seitenleiste",
     "mainNavigation": "Hauptnavigation",
-    "about": "Über"
+    "about": "Über",
+    "shadowAccount": "Schattenkonto"
   },
   "runtime": {
     "monitorBadge": "Runtime-Monitor",
@@ -1402,5 +1403,24 @@
     "loading": "Faktor-Ergebnisse werden geladen…",
     "error": "Faktor-Ergebnisse konnten nicht geladen werden",
     "noFactorData": "Für diesen Lauf sind keine Faktor-Analyseergebnisse verfügbar."
+  },
+  "shadow": {
+    "title": "Schattenkonto",
+    "subtitle": "Laden Sie Ihren Broker-Export hoch. Der Agent analysiert, wie Sie tatsächlich handeln, extrahiert die Regeln, denen Sie wirklich folgen, testet sie im Backtest und zeigt Ihnen die Lücke dazwischen.",
+    "dropHere": "Handelsexport hier ablegen oder klicken zum Auswählen",
+    "accepts": "CSV, TSV oder Excel · bis 50 MB · 同花顺, 东方财富, 富途 und generische Formate",
+    "uploading": "{{name}} wird hochgeladen…",
+    "starting": "Analyse wird gestartet…",
+    "sessionTitle": "Schattenkonto — {{name}}",
+    "whatYouGet": "Was die Analyse liefert",
+    "point1": "Ihr Verhaltensprofil — Haltedauer, Trefferquote sowie Prüfungen auf Dispositionseffekt, Overtrading, Momentum-Jagd und Ankereffekt.",
+    "point2": "Die Regeln, nach denen Sie tatsächlich handeln, abgeleitet aus wiederkehrenden Ein- und Ausstiegen.",
+    "point3": "Ein Backtest dieser Regeln, sauber ausgeführt — ohne Zögern und ohne Regelbrüche.",
+    "point4": "Die Lücke: wo Ihre realen Trades von Ihrer eigenen Strategie abwichen und was das gekostet hat.",
+    "privacy": "Ihre Datei wird lokal unter ~/.vibe-trading gespeichert und vom Agenten auf diesem Rechner gelesen. Die Inhalte des Handelsjournals werden im Rahmen der Analyse an Ihren konfigurierten LLM-Anbieter gesendet.",
+    "errUnsupported": "Nicht unterstütztes Dateiformat. Exportieren Sie Ihre Trades als CSV, TSV oder Excel.",
+    "errTooLarge": "Die Datei überschreitet das Limit von 50 MB.",
+    "errEmpty": "Diese Datei ist leer.",
+    "errFailed": "Upload fehlgeschlagen. Bitte erneut versuchen."
   }
 }
