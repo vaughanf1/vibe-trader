@@ -270,6 +270,7 @@ def run_shadow_backtest(
         profile=profile,
         journal_path=journal_path,
         combined=combined,
+        initial_capital=initial_capital,
     )
 
     result = ShadowBacktestResult(
@@ -471,9 +472,10 @@ def _attribution_or_zero(
     profile: ShadowProfile,
     journal_path: str | Path | None,
     combined: dict[str, float],
+    initial_capital: float,
 ) -> tuple[AttributionBreakdown, float, float]:
     """Compute attribution if the journal is available, else return zeros."""
-    shadow_pnl = float(combined.get("total_return_abs") or combined.get("total_pnl") or 0.0)
+    shadow_pnl = _shadow_pnl_from(combined, initial_capital)
     if not journal_path:
         return _zero_attribution(), shadow_pnl, 0.0
     path = Path(journal_path)
@@ -492,6 +494,35 @@ def _attribution_or_zero(
         return _zero_attribution(), shadow_pnl, 0.0
 
     return _compute_attribution(profile=profile, roundtrips=roundtrips, shadow_pnl=shadow_pnl)
+
+
+def _shadow_pnl_from(combined: dict[str, float], initial_capital: float) -> float:
+    """Absolute PnL of the shadow run, in the headline pool's currency.
+
+    The composite engine emits ``final_value`` and ``total_return``; it has
+    never emitted ``total_return_abs`` or ``total_pnl``. Reading only those
+    two keys meant shadow_pnl silently resolved to 0.0 on every run, which
+    made ``delta_pnl`` degenerate to the negated journal PnL regardless of how
+    the shadow actually performed.
+
+    Note the scale mismatch this exposes: the shadow trades ``initial_capital``
+    (1,000,000 by default) over a fixed liquid basket, not the user's own
+    capital or symbols. The absolute difference against a real journal is
+    therefore not a like-for-like figure; compare ``total_return`` instead.
+    """
+    # Prefer an explicit absolute-PnL key when the engine supplies one.
+    for key in ("total_return_abs", "total_pnl"):
+        value = combined.get(key)
+        if isinstance(value, (int, float)):
+            return round(float(value), 2)
+    # The composite engine supplies neither; derive from the equity endpoint.
+    final_value = combined.get("final_value")
+    if isinstance(final_value, (int, float)) and final_value:
+        return round(float(final_value) - initial_capital, 2)
+    total_return = combined.get("total_return")
+    if isinstance(total_return, (int, float)):
+        return round(float(total_return) * initial_capital, 2)
+    return 0.0
 
 
 def _zero_attribution() -> AttributionBreakdown:

@@ -87,7 +87,7 @@ def compute_risk_xray(
     closes: pd.DataFrame,
     weights: Mapping[str, float],
     *,
-    periods_per_year: int = PERIODS_PER_YEAR,
+    periods_per_year: int | None = PERIODS_PER_YEAR,
     var_levels: Sequence[float] = VAR_LEVELS,
     min_history: int = MIN_HISTORY_DAYS,
 ) -> dict[str, Any]:
@@ -97,7 +97,12 @@ def compute_risk_xray(
         closes: Close-price panel, one column per symbol, sorted by date.
         weights: Symbol → weight. Renormalized to 1.0 with a warning when the
             sum differs; must be long-only and reference existing columns.
-        periods_per_year: Annualization factor for the bar interval.
+        periods_per_year: Annualization factor for the bar interval. ``None``
+            is the cross-market sentinel set by ``backtest.runner`` when a run
+            spans market types with different calendars (e.g. a USD pool
+            holding both US equities at ~252 bars/yr and crypto at 365); it
+            selects calendar-day annualization, matching
+            ``backtest.metrics.calc_metrics``.
         var_levels: Tail levels for historical VaR / expected shortfall.
         min_history: Minimum valid bars a symbol must have to be included.
 
@@ -155,6 +160,11 @@ def compute_risk_xray(
     port = returns.to_numpy(dtype=float) @ w
     port_returns = pd.Series(port, index=returns.index)
 
+    # Cross-market runs pass periods_per_year=None to mean "annualize by
+    # calendar span" (backtest/runner.py). Resolve it here, the same way
+    # calc_metrics does, so the sentinel never reaches math.sqrt.
+    effective_ppy = _resolve_periods_per_year(periods_per_year, returns.index)
+
     result: dict[str, Any] = {
         "inputs": {
             "symbols": kept,
@@ -165,10 +175,10 @@ def compute_risk_xray(
             "last_date": str(aligned.index[-1]),
         },
         "concentration": _concentration(w),
-        "volatility": _volatility(port_returns, periods_per_year),
+        "volatility": _volatility(port_returns, effective_ppy),
         "drawdown": _drawdown(port_returns),
         "tail_risk": _tail_risk(port_returns, var_levels),
-        "diversification": _diversification(returns, w, port_returns, periods_per_year),
+        "diversification": _diversification(returns, w, port_returns, effective_ppy),
         "correlation": _correlation(returns, port_returns),
         "skipped": skipped,
         "warnings": warnings,
@@ -185,6 +195,25 @@ def _concentration(w: np.ndarray) -> dict[str, Any]:
         "top1_weight": _finite(float(w[order[0]])) if len(order) else None,
         "top3_weight": _finite(float(w[order[:3]].sum())) if len(order) else None,
     }
+
+
+def _resolve_periods_per_year(ppy: int | None, index: pd.Index) -> int:
+    """Return a usable annualization factor, resolving the ``None`` sentinel.
+
+    Mirrors the calendar-day branch of ``backtest.metrics.calc_metrics``:
+    observed bars divided by the calendar years the panel actually spans.
+    Falls back to the daily default when the span is degenerate.
+    """
+    if ppy is not None:
+        return int(ppy)
+    if len(index) < 2:
+        return PERIODS_PER_YEAR
+    span = index[-1] - index[0]
+    calendar_days = span.days if hasattr(span, "days") else 0
+    if calendar_days <= 0:
+        return PERIODS_PER_YEAR
+    years = calendar_days / 365.25
+    return max(1, int(len(index) / years)) if years > 0 else PERIODS_PER_YEAR
 
 
 def _volatility(port: pd.Series, ppy: int) -> dict[str, Any]:
