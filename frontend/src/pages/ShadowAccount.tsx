@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { api } from "@/lib/api";
 
 // Mirrors the server-side allowlist in agent/src/api/uploads_routes.py. Broker
-// exports arrive as CSV/TSV far more often than Excel, but 同花顺 / 富途 both
+// exports arrive as CSV/TSV far more often than Excel, but Tonghuashun / Futu both
 // offer .xlsx exports, so accept those too.
 const ACCEPTED_EXT = [".csv", ".tsv", ".xlsx", ".xls"] as const;
 
@@ -202,7 +202,7 @@ export function ShadowAccount() {
               </span>
               <span className="text-xs text-muted-foreground">
                 {i18n.t("shadow.accepts", {
-                  defaultValue: "CSV, TSV, or Excel · up to 50 MB · 同花顺, 东方财富, 富途, and generic formats",
+                  defaultValue: "CSV, TSV, or Excel · up to 50 MB · Tonghuashun, East Money, Futu, and generic formats",
                 })}
               </span>
             </>
