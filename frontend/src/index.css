@@ -4,92 +4,209 @@
 
 @layer base {
   :root {
-    /* Light mode surfaces */
-    --background: 220 20% 98%;
-    --foreground: 220 20% 10%;
+    /* ---------------------------------------------------------------
+       Light mode — Apple "system background" greys.
+       Near-neutral (240deg, very low saturation) rather than blue-tinted,
+       so surfaces read as paper-white the way macOS/iOS panels do.
+       --------------------------------------------------------------- */
+    --background: 240 20% 98%;
+    --foreground: 240 8% 9%;
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 10%;
+    --card-foreground: 240 8% 9%;
 
-    /* Popover: a slightly elevated surface used for floating menus,
-       tooltips, and the language switcher dropdown. Falls back to a
-       solid white (light) or surface-1 (dark) so dropdowns never
-       appear transparent and let underlying content bleed through. */
+    /* Popover: elevated floating surface (menus, tooltips, language
+       switcher). Solid, never transparent — dropdowns must not let
+       underlying content bleed through. */
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 10%;
+    --popover-foreground: 240 8% 9%;
 
-    /* Brand accent */
-    --primary: 27 90% 52%;
+    /* ---------------------------------------------------------------
+       Brand accent — neon green.
+
+       `--primary` is used both as a FILL (bg-primary, 75 uses) and as
+       TEXT/ICON color (text-primary, 76 uses) on light surfaces. Raw
+       neon on white is ~1.5:1 contrast — illegible. So in light mode
+       --primary is a deep emerald that clears 4.5:1 as text on white
+       AND carries white text as a button fill, while `--neon` below
+       holds the pure electric green for glows, rails, and accents
+       where contrast is not the constraint.
+       --------------------------------------------------------------- */
+    --primary: 152 82% 27%;
     --primary-foreground: 0 0% 100%;
 
-    --muted: 220 14% 92%;
-    --muted-foreground: 220 14% 46%;
+    /* Pure electric green. Decorative/structural only — never body text
+       on a light surface. */
+    --neon: 152 100% 45%;
+    --neon-foreground: 155 40% 6%;
+
+    --muted: 240 12% 94%;
+    --muted-foreground: 240 6% 44%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 14% 87%;
-    --radius: 0.5rem;
+    --border: 240 10% 89%;
+    --radius: 0.75rem;
 
-    /* Semantic colors */
-    --success: 142 71% 45%;
+    /* Semantic colors. Kept distinct from the brand green: `--success`
+       is a deeper, calmer financial green so a rising P&L number never
+       reads as a brand accent (and vice versa). Warning stays amber —
+       a green warning is a contradiction. */
+    --success: 145 62% 32%;
     --danger: 0 84% 60%;
     --warning: 38 92% 50%;
     --info: 217 91% 60%;
 
+    /* Elevation — Apple-style layered shadows: a tight contact shadow
+       plus a wide soft ambient one. */
+    --shadow-1: 0 1px 2px hsl(240 8% 9% / 0.06), 0 1px 3px hsl(240 8% 9% / 0.04);
+    --shadow-2: 0 2px 4px hsl(240 8% 9% / 0.05), 0 6px 16px hsl(240 8% 9% / 0.08);
+    --shadow-3: 0 4px 8px hsl(240 8% 9% / 0.06), 0 16px 40px hsl(240 8% 9% / 0.12);
+    --glow: 0 0 0 transparent;
+
+    /* Translucent "vibrancy" backdrop for sticky bars and sidebars. */
+    --vibrancy: 0 0% 100% / 0.72;
+
     /* Chart tokens */
-    --chart-grid: 220 14% 90%;
-    --chart-text: 220 14% 46%;
-    --chart-axis: 220 14% 80%;
+    --chart-grid: 240 10% 91%;
+    --chart-text: 240 6% 44%;
+    --chart-axis: 240 10% 82%;
     --chart-compare-a: #3b82f6;
     --chart-compare-b: #f59e0b;
   }
 
   .dark {
-    /* Dark mode: 4-level surface system. Keep >=5 lightness points between
-       adjacent surfaces — smaller deltas are indistinguishable on most
-       panels (sidebar vs main blended at 5%/8%). */
-    --background: 220 20% 5%;       /* bg-base */
-    --foreground: 220 10% 93%;
-    --card: 220 18% 10%;            /* surface-1 */
-    --card-foreground: 220 10% 93%;
+    /* ---------------------------------------------------------------
+       Dark mode: 4-level surface system. Keep >=5 lightness points
+       between adjacent surfaces — smaller deltas are indistinguishable
+       on most panels (sidebar vs main blended at 5%/8%).
+       --------------------------------------------------------------- */
+    --background: 240 10% 4%;        /* bg-base */
+    --foreground: 240 10% 95%;
+    --card: 240 8% 9%;               /* surface-1 */
+    --card-foreground: 240 10% 95%;
 
-    --popover: 220 18% 12%;         /* surface-1.5 (slightly lighter than card) */
-    --popover-foreground: 220 10% 93%;
+    --popover: 240 8% 12%;           /* surface-1.5 (lighter than card) */
+    --popover-foreground: 240 10% 95%;
 
-    --primary: 27 90% 52%;
-    --primary-foreground: 0 0% 100%;
+    /* On near-black, the pure neon IS the accessible choice: it hits
+       ~14:1 as text, and as a fill it carries near-black text. This is
+       where the theme gets its glow. */
+    --primary: 152 100% 52%;
+    --primary-foreground: 155 45% 6%;
 
-    --muted: 220 16% 16%;           /* surface-2 */
-    --muted-foreground: 220 10% 64%;
+    --neon: 152 100% 55%;
+    --neon-foreground: 155 45% 6%;
+
+    --muted: 240 7% 15%;             /* surface-2 */
+    --muted-foreground: 240 6% 62%;
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 14% 24%;          /* surface-3 */
+    --border: 240 7% 22%;            /* surface-3 */
 
     /* Semantic colors */
-    --success: 142 71% 45%;
+    --success: 145 60% 45%;
     --danger: 0 62% 50%;
     --warning: 38 92% 50%;
     --info: 217 91% 60%;
 
+    /* Dark elevation reads through shadow *and* a light top edge, the
+       way Apple separates stacked dark panels. */
+    --shadow-1: 0 1px 2px hsl(0 0% 0% / 0.4);
+    --shadow-2: 0 2px 6px hsl(0 0% 0% / 0.45), 0 8px 24px hsl(0 0% 0% / 0.35);
+    --shadow-3: 0 4px 12px hsl(0 0% 0% / 0.5), 0 20px 48px hsl(0 0% 0% / 0.45);
+    --glow: 0 0 24px hsl(var(--neon) / 0.18);
+
+    --vibrancy: 240 8% 9% / 0.72;
+
     /* Chart tokens */
-    --chart-grid: 220 20% 14%;
-    --chart-text: 220 10% 55%;
-    --chart-axis: 220 20% 26%;
+    --chart-grid: 240 10% 13%;
+    --chart-text: 240 6% 55%;
+    --chart-axis: 240 10% 24%;
     --chart-compare-a: #60a5fa;
     --chart-compare-b: #fbbf24;
   }
 
   * { @apply border-border; }
-  body { @apply bg-background text-foreground; }
+
+  body {
+    @apply bg-background text-foreground;
+    /* SF Pro's optical sizing is what makes Apple UI feel crisp rather
+       than thin. Grayscale antialiasing matches macOS rendering. */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Apple sets headings tighter as they get larger. Optical tracking,
+     applied by size rather than by tag, so it survives refactors. */
+  h1, h2, h3, h4 { @apply font-semibold; letter-spacing: -0.021em; }
+  h1 { letter-spacing: -0.028em; }
+
+  /* Tabular figures everywhere numbers are compared vertically —
+     prices, P&L, metrics tables. Digits must not jitter. */
+  .tabular, table td, table th { font-variant-numeric: tabular-nums; }
+
+  /* A single, consistent focus ring. Visible on keyboard only, so mouse
+     users never see it, but it is unmissable when tabbing. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--neon));
+    outline-offset: 2px;
+    border-radius: calc(var(--radius) - 4px);
+  }
 
   /* Prose table enhancements */
   .prose table { border-collapse: collapse; width: 100%; }
   .prose th, .prose td { border: 1px solid hsl(var(--border)); }
   .prose tbody tr:nth-child(even) { background: hsl(var(--muted) / 0.3); }
 
-  /* Smooth scrollbar for webkit */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  /* Scrollbars: overlay-style, appearing on hover the way macOS does. */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground)); }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.28);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.5); background-clip: content-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+}
+
+@layer components {
+  /* Frosted translucent surface for sticky headers and sidebars — the
+     single most recognisable Apple UI move. Degrades to a solid panel
+     where backdrop-filter is unsupported. */
+  .vibrancy {
+    background-color: hsl(var(--card));
+    border-color: hsl(var(--border) / 0.6);
+  }
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .vibrancy {
+      background-color: hsl(var(--vibrancy));
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+    }
+  }
+
+  /* Elevation utilities driven by the shadow tokens above. */
+  .elev-1 { box-shadow: var(--shadow-1); }
+  .elev-2 { box-shadow: var(--shadow-2); }
+  .elev-3 { box-shadow: var(--shadow-3); }
+
+  /* Neon emphasis: a soft bloom used sparingly on the active nav item,
+     primary CTAs, and live/streaming indicators. Invisible in light
+     mode (--glow is transparent there) — neon bloom only reads on dark. */
+  .neon-glow { box-shadow: var(--glow); }
+
+  /* Pressable: Apple controls scale down slightly on press rather than
+     changing color. Cheap, and it makes the whole UI feel physical. */
+  .pressable {
+    transition: transform 140ms cubic-bezier(0.16, 1, 0.3, 1), background-color 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
+  }
+  .pressable:active { transform: scale(0.97); }
+  @media (prefers-reduced-motion: reduce) {
+    .pressable, .pressable:active { transition: none; transform: none; }
+  }
 }
 
 /* Streaming pulse-slide animation for the "running" bar */
@@ -116,6 +233,16 @@
 .msg-enter { animation: msg-enter 300ms cubic-bezier(0.16, 1, 0.3, 1) both; }
 @media (prefers-reduced-motion: reduce) {
   .msg-enter { animation: none; }
+}
+
+/* Slow breathing pulse for live/streaming neon indicators. */
+@keyframes neon-breathe {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
+}
+.neon-breathe { animation: neon-breathe 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .neon-breathe { animation: none; }
 }
 
 /* RTL: mirror directional icons (chevrons, arrows) automatically */

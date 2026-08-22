@@ -107,7 +107,8 @@ export function Layout() {
       <aside
         aria-label={t('layout.sidebar', { defaultValue: 'Vibe-Trading sidebar' })}
         className={cn(
-          "max-md:w-12 border-e border-border/60 bg-card flex flex-col shrink-0 transition-all duration-200 overflow-visible",
+          "vibrancy max-md:w-12 border-e flex flex-col shrink-0 overflow-visible",
+          "transition-[width] duration-300 ease-apple",
           collapsed ? "w-12" : "w-64"
         )}
       >
@@ -138,11 +139,12 @@ export function Layout() {
                 to={to}
                 aria-label={text}
                 className={cn(
-                  "flex items-center rounded-md text-[13px] transition-colors",
-                  collapsed ? "justify-center px-2 py-1.5" : "gap-3 px-3 py-1.5 max-md:justify-center max-md:px-2",
+                  "pressable relative flex items-center rounded-lg text-[13px]",
+                  collapsed ? "justify-center px-2 py-2" : "gap-3 px-3 py-2 max-md:justify-center max-md:px-2",
                   (to === "/" ? pathname === "/" || pathname.startsWith("/agent") : pathname.startsWith(to))
-                    ? "bg-primary/10 text-primary font-medium"
-                    : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+                    // Active: tinted pill + neon left rail + bloom (dark only).
+                    ? "bg-primary/10 text-primary font-semibold neon-glow before:absolute before:inset-y-1.5 before:start-0 before:w-0.5 before:rounded-full before:bg-neon"
+                    : "text-muted-foreground hover:bg-muted/70 hover:text-foreground"
                 )}
                 title={collapsed ? text : undefined}
               >
@@ -203,14 +205,14 @@ export function Layout() {
                         className={cn(
                           "flex-1 min-w-0 ps-3 pe-14 py-1.5 rounded-md text-xs transition-colors truncate block border-s-2",
                           isActive
-                            ? "border-s-primary bg-primary/10 text-primary font-medium"
+                            ? "border-s-neon bg-primary/10 text-primary font-medium"
                             : "border-s-transparent text-muted-foreground hover:bg-muted hover:text-foreground"
                         )}
                         title={s.title || s.session_id}
                       >
                         <span className="flex min-w-0 items-center gap-1.5">
                           {streamingSessionId === s.session_id ? (
-                            <Loader2 className="h-3 w-3 shrink-0 animate-spin text-primary" />
+                            <Loader2 className="h-3 w-3 shrink-0 animate-spin text-neon neon-breathe" />
                           ) : (
                             // Transparent placeholder keeps titles aligned with
                             // spinner rows without a meaningless gray dot.

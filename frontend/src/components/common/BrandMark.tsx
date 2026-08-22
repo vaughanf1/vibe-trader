@@ -13,18 +13,18 @@ export function BrandMark({
     >
       <defs>
         <linearGradient id="vt-mark-grad" x1="0" y1="32" x2="32" y2="0" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#EA580C" />
-          <stop offset="1" stopColor="#F7A316" />
+          <stop offset="0" stopColor="#00C767" />
+          <stop offset="1" stopColor="#3BFF9E" />
         </linearGradient>
       </defs>
       <rect width="32" height="32" rx="7.5" fill="url(#vt-mark-grad)" />
       {/* Three ascending candlesticks. */}
-      <line x1="9.5" y1="14" x2="9.5" y2="24.5" stroke="#ffffff" strokeOpacity="0.75" strokeWidth="1.8" strokeLinecap="round" />
-      <rect x="7.5" y="16" width="4" height="6" rx="1" fill="#ffffff" />
-      <line x1="16" y1="9.5" x2="16" y2="21.5" stroke="#ffffff" strokeOpacity="0.75" strokeWidth="1.8" strokeLinecap="round" />
-      <rect x="14" y="11.5" width="4" height="7" rx="1" fill="#ffffff" />
-      <line x1="22.5" y1="5.5" x2="22.5" y2="18" stroke="#ffffff" strokeOpacity="0.75" strokeWidth="1.8" strokeLinecap="round" />
-      <rect x="20.5" y="7.5" width="4" height="7.5" rx="1" fill="#ffffff" />
+      <line x1="9.5" y1="14" x2="9.5" y2="24.5" stroke="#07110C" strokeOpacity="0.6" strokeWidth="1.8" strokeLinecap="round" />
+      <rect x="7.5" y="16" width="4" height="6" rx="1" fill="#07110C" />
+      <line x1="16" y1="9.5" x2="16" y2="21.5" stroke="#07110C" strokeOpacity="0.6" strokeWidth="1.8" strokeLinecap="round" />
+      <rect x="14" y="11.5" width="4" height="7" rx="1" fill="#07110C" />
+      <line x1="22.5" y1="5.5" x2="22.5" y2="18" stroke="#07110C" strokeOpacity="0.6" strokeWidth="1.8" strokeLinecap="round" />
+      <rect x="20.5" y="7.5" width="4" height="7.5" rx="1" fill="#07110C" />
     </svg>
   );
 }
