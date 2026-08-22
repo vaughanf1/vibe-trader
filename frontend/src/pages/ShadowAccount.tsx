@@ -45,6 +45,13 @@ export function buildPrompt(filePath: string, fileName: string): string {
   return [
     `Analyse my trading journal. The broker export is at \`${filePath}\` (original filename: ${fileName}).`,
     "",
+    // Guard against a runaway repair loop: when the parser rejected a file,
+    // the agent tried to fix the upload in place — 85 steps of alternating
+    // "analyze journal" failures and 20-to-30-edit rewrites of the user's own
+    // data, never terminating. Reporting the parse error is always the right
+    // move; silently rewriting someone's broker export never is.
+    "Do not modify, rewrite, or repair the uploaded file — it is the user's own record. If it will not parse, stop and report the error and the header row you saw, rather than retrying.",
+    "",
     "Follow these steps:",
     `1. Call \`extract_shadow_strategy\` with journal_path="${filePath}" to derive the rules I am implicitly trading.`,
     `2. Call \`run_shadow_backtest\` with the returned shadow_id and journal_path="${filePath}".`,

@@ -46,6 +46,18 @@ _BUY_TOKENS = {
     "做多",
     "long",
 }
+# Order-type qualifiers some brokers prepend or append to the side, e.g.
+# Trading 212's "Market buy" / "Market sell". Longest first so "stop limit"
+# is stripped before "stop". These carry no directional meaning.
+_ORDER_TYPE_QUALIFIERS = (
+    "stop limit",
+    "stop-limit",
+    "trailing stop",
+    "at quote",
+    "market",
+    "limit",
+    "stop",
+)
 _SELL_TOKENS = {
     "sell",
     "s",
@@ -169,7 +181,28 @@ def _normalize_side(raw: Any) -> str:
         return "buy"
     if s in _SELL_TOKENS:
         return "sell"
+    stripped = _strip_order_type(s)
+    if stripped != s:
+        if stripped in _BUY_TOKENS:
+            return "buy"
+        if stripped in _SELL_TOKENS:
+            return "sell"
     raise ValueError(f"Unsupported trade side: {raw!r}")
+
+
+def _strip_order_type(s: str) -> str:
+    """Drop a leading or trailing order-type qualifier from a side value.
+
+    ``"market buy"`` and ``"buy market"`` both reduce to ``"buy"``. Multi-word
+    sides that carry meaning ("buy to cover") are untouched, because the
+    qualifier list holds only order types.
+    """
+    for qualifier in _ORDER_TYPE_QUALIFIERS:
+        if s.startswith(f"{qualifier} "):
+            return s[len(qualifier) + 1:].strip()
+        if s.endswith(f" {qualifier}"):
+            return s[: -(len(qualifier) + 1)].strip()
+    return s
 
 
 def _is_empty_code(raw: Any) -> bool:
@@ -453,9 +486,19 @@ def parse_generic(df: pd.DataFrame) -> list[TradeRecord]:
     sym_col = pick("symbol", "ticker", "code")
     name_col = pick("name", "instrument")
     side_col = pick("side", "direction", "action")
-    qty_col = pick("quantity", "qty", "size", "volume")
-    price_col = pick("price")
-    amount_col = pick("amount", "value", "notional")
+    qty_col = pick(
+        "quantity", "qty", "size", "volume",
+        # Trading 212 / Freetrade / Revolut spellings.
+        "no. of shares", "no of shares", "shares", "units",
+    )
+    price_col = pick(
+        "price",
+        "price / share", "price/share", "price per share", "share price",
+    )
+    amount_col = pick(
+        "amount", "value", "notional",
+        "total", "total amount", "consideration",
+    )
     fee_col = pick("fee", "commission", "fees")
 
     if side_col is None:
